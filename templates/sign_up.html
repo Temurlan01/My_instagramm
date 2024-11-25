@@ -34,6 +34,7 @@
 
                     </div>
                     <form action="{% url 'make-registration-url' %}" method="post">
+                        {% csrf_token %}
                         <div>
                             <input type="text" name="first_name" id="first_name" placeholder="First name">
                         </div>
@@ -56,13 +57,13 @@
                                 <a href="#">Terms, Privacy Policy and Cookies Policy.</a> 
                             </p>
                         </div>
-                        
-                    </form>
-                    <a href="./home.html">
+                        <a href="./home.html">
                         <button class="log_btn">
                                 Sign Up
                         </button>
                     </a>
+                    </form>
+
                 </div>
                 <div class="sing-in border_insc">
                     <p>
