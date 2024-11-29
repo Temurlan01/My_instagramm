@@ -1,6 +1,6 @@
 from urllib import request
 from django.contrib.auth import login
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView
 
@@ -43,10 +43,40 @@ class MakeLoginView(View):
         print('коррект равен', correct)
         if correct == True:
             login(request, user)
-            return render(request, 'home.html', context={'logged_in': True})
+            return redirect('home-url')
         else:
             return render(request, 'login.html', context={'logged_in': False})
 
 
 class HomeView(TemplateView):
     template_name = 'home.html'
+
+
+class ProfileView(TemplateView):
+    template_name = 'profile.html'
+
+    def get_context_data(self, **kwargs):
+        current_user = self.request.user
+        context = {
+            'user': current_user,
+        }
+        return context
+
+
+class MyProfilePageView(TemplateView):
+    template_name = 'profile.html'
+
+    def get_context_data(self, **kwargs):
+        current_user = self.request.user
+
+        followers_count = current_user.my_followers.all().count()
+        following_count = current_user.my_following.all().count()
+
+        publications_count = current_user.my_publications.all().count()
+
+        context = {
+            'followers_count': followers_count,
+            'following_count': following_count,
+            'publications_count': publications_count,
+        }
+        return context
