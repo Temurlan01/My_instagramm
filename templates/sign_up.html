@@ -33,7 +33,7 @@
                         </div>
 
                     </div>
-                    <form action="{% url 'make-registration-url' %}" method="post">
+                    <form action="{% url 'make-registration-url' %}" method="POST">
                         {% csrf_token %}
                         <div>
                             <input type="text" name="first_name" id="first_name" placeholder="First name">
