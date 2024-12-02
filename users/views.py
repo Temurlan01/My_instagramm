@@ -1,5 +1,5 @@
 from urllib import request
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView
@@ -34,7 +34,7 @@ class LoginListView(TemplateView):
 class MakeLoginView(View):
     def post(self, request, *args, **kwargs):
         data = request.POST
-        nickname = data['username'],
+        nickname = data['nickname'],
         password = data['password']
 
         user = CustomUser.objects.get(nickname=nickname)
@@ -48,8 +48,10 @@ class MakeLoginView(View):
             return render(request, 'login.html', context={'logged_in': False})
 
 
-class HomeView(TemplateView):
-    template_name = 'home.html'
+class UserMakeLogoutView(View):
+    def post(self, *args, **kwargs):
+        logout(request)
+        return render(request, 'login.html')
 
 
 class ProfileView(TemplateView):
