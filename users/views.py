@@ -5,6 +5,7 @@ from django.views import View
 from django.views.generic import TemplateView
 
 from users.models import CustomUser
+from publications.models import Publication
 
 
 class UserRegistrationView(TemplateView):
@@ -15,10 +16,9 @@ class MakeUserRegistrationView(View):
 
     def post(self, request, *args, **kwargs):
         data = request.POST
-        print('это то что ', data)
-        first_name = data['first_name'],
-        last_name = data['last_name'],
-        username = data['username'],
+        first_name = data['first_name']
+        last_name = data['last_name']
+        username = data['username']
         password = data['password']
         user = CustomUser.objects.create_user(
             nickname=username,password=password,
@@ -34,13 +34,11 @@ class LoginListView(TemplateView):
 class MakeLoginView(View):
     def post(self, request, *args, **kwargs):
         data = request.POST
-        nickname = data['nickname'],
+        nickname = data['nickname']
         password = data['password']
 
         user = CustomUser.objects.get(nickname=nickname)
-        print('Пользователь', user)
         correct = user.check_password(password)
-        print('коррект равен', correct)
         if correct == True:
             login(request, user)
             return redirect('home-url')
@@ -48,37 +46,28 @@ class MakeLoginView(View):
             return render(request, 'login.html', context={'logged_in': False})
 
 
-class UserMakeLogoutView(View):
-    def post(self, *args, **kwargs):
-        logout(request)
-        return render(request, 'login.html')
-
 
 class ProfileView(TemplateView):
     template_name = 'profile.html'
 
     def get_context_data(self, **kwargs):
-        current_user = self.request.user
+        user = CustomUser.objects.get(id=kwargs['pk'])
+        followers_count = user.my_followers.all().count()
+        following_count = user.my_following.all().count()
+        publications_count = user.my_publications.all().count()
+        post = user.my_publications.all()
         context = {
-            'user': current_user,
-        }
-        return context
-
-
-class MyProfilePageView(TemplateView):
-    template_name = 'profile.html'
-
-    def get_context_data(self, **kwargs):
-        current_user = self.request.user
-
-        followers_count = current_user.my_followers.all().count()
-        following_count = current_user.my_following.all().count()
-
-        publications_count = current_user.my_publications.all().count()
-
-        context = {
+            'user': user,
+            'post': post,
             'followers_count': followers_count,
             'following_count': following_count,
             'publications_count': publications_count,
+
         }
         return context
+
+
+
+
+
+
