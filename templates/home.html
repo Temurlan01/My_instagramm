@@ -112,29 +112,29 @@
                                 <li>
                                     <a class="dropdown-item" href="#">
                                         <span>Following</span>
-                                        <img src="./images/add-friend.png">
+                                        <img src="{% static './images/add-friend.png' %}">
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="#">
                                         <span>Favorites</span>
-                                        <img src="./images/star.png">
+                                        <img src="{% static './images/star.png' %}">
                                     </a>
                                 </li>
                             </ul>
                         </div>
                         <div class="left">
-                            <img src="./images/send.png">
+                            <img src="{% static './images/send.png' %}">
                             <a href="./notification.html">
-                                <img class="notification_icon" src="./images/love.png">
+                                <img class="notification_icon" src="{% static './images/love.png' %}">
                             </a>
                         </div>
                     </div>
                 </div>
                 <!-- menu in the botton for smal screen  -->
                 <div class="nav_bottom">
-                    <a href="./home.html">
-                        <img src="./images/accueil.png">
+                    <a href="{% url 'home-url' %}">
+                        <img src="{% static './images/accueil.png' %}">
                     </a>
                     <a href="./explore.html">
                         <img src="./images/compass.png">
@@ -167,7 +167,7 @@
                         <div class="cart">
                             <div>
                                 <div class="img">
-                                    <img src="./images/profile_img.jpg" alt="">
+                                    <img src="{% static './images/profile_img.jpg' %}" alt="">
                                 </div>
                                 <div class="info">
                                     <p class="name">Zineb_essoussi</p>
@@ -190,7 +190,7 @@
                         <div class="cart">
                             <div>
                                 <div class="img">
-                                    <img src="./images/profile_img.jpg" alt="">
+                                    <img src="{% static './images/profile_img.jpg' %}" alt="">
                                 </div>
                                 <div class="info">
                                     <p class="name"> Zineb_essoussi <span class="desc">started following you.</span>
@@ -235,7 +235,7 @@
                                 </div>
                             </div>
                             <div class="story_like">
-                                <img src="./images/img2.jpg" alt="">
+                                <img src="{% static './images/img2.jpg' %}" alt="">
                             </div>
                         </div>
                     </div>
@@ -387,13 +387,14 @@
                 <!--***** followers_container start ****** -->
                 <div class="followers_container">
                     <div>
+                        {% for item in user.my_following.all %}
                         <div class="cart">
                             <div>
                                 <div class="img">
                                     <img src="{% static './images/profile_img.jpg' %}" alt="">
                                 </div>
                                 <div class="info">
-                                    <p class="name">Zineb_essoussi</p>
+                                    <p class="name">{{ item.name}}</p>
                                     <p class="second_name">Zim Ess</p>
                                 </div>
                             </div>
@@ -401,6 +402,7 @@
                                 <a href="#">Switch</a>
                             </div>
                         </div>
+                        {% endfor %}
                         <!--                    ЗДЕСЬ ПОКАЗЫВАЮТСЯ ВСЕ ОСТАЛЬНЫЕ ПОЛЬЗОВАТЕЛИ, ТО ЕСТЬ НЕ ВАШИ ПОДПИСКИ  -->
                         <div class="suggestions">
                             <div class="title">

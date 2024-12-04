@@ -21,7 +21,7 @@ class MakeUserRegistrationView(View):
         username = data['username']
         password = data['password']
         user = CustomUser.objects.create_user(
-            nickname=username,password=password,
+            nickname=username, password=password,
             first_name=first_name, last_name=last_name,
         )
         return render(request, 'login.html')
@@ -44,7 +44,6 @@ class MakeLoginView(View):
             return redirect('home-url')
         else:
             return render(request, 'login.html', context={'logged_in': False})
-
 
 
 class ProfileView(TemplateView):
